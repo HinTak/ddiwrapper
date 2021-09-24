@@ -26,12 +26,12 @@ void render_document(void)
   // a pointer to the created surface as the surface handle; this is a bit hackish, but
   // the driver is not supposed to question us, after all.
   HSURF drivsurf;
-  DEBUG(1,"Calling DrvEnableSurface, pdev %p, last error %ld\n",c->pdev,GetLastError());
+  DEBUG(1,"Calling DrvEnableSurface, pdev %p, last error %d\n",c->pdev,GetLastError());
   SetLastError(0);
   drivsurf=pDrvEnableSurface(c->pdev);
   if(!drivsurf)
   {
-    ERRMSG("DrvEnableSurface failed, error %ld\n",GetLastError());
+    ERRMSG("DrvEnableSurface failed, error %d\n",GetLastError());
     exit(1);
   }
   else
@@ -59,7 +59,7 @@ void render_document(void)
   // tell driver about the document name and job ID
   if(!pDrvStartDoc(&bm,L"test document",42))
   {
-    ERRMSG("DrvStartDoc failed, error %ld\n",GetLastError());
+    ERRMSG("DrvStartDoc failed, error %d\n",GetLastError());
     exit(1);
   }
 
@@ -107,7 +107,7 @@ void render_document(void)
     //asm("int $3");
     if(!pDrvStartPage(&bm))
     {
-      ERRMSG("DrvStartPage failed, error %ld\n",GetLastError());
+      ERRMSG("DrvStartPage failed, error %d\n",GetLastError());
       exit(1);
     }
     
@@ -118,9 +118,9 @@ void render_document(void)
     POINTL p;
     DEBUG(1,"Calling DrvStartBanding\n");
     if(!pDrvStartBanding(&bm,&p))
-      ERRMSG("DrvStartBanding failed, error %ld\n",GetLastError());
+      ERRMSG("DrvStartBanding failed, error %d\n",GetLastError());
     
-    DEBUG(2,"DrvStartBanding returned point %ld/%ld\n",p.x,p.y);
+    DEBUG(2,"DrvStartBanding returned point %d/%d\n",p.x,p.y);
     DEBUG(3,"so.pvBits %p\n",so->pvBits);
 
     SetLastError(0xffff);
@@ -202,7 +202,7 @@ void render_document(void)
       // So far, BGR (nothing to do) and RGB (swap blue and red) are supported
       // c->color_mode is set by EngCreatePalette() which the driver calls during DrvEnableSurface()
       // execution, when it creates its printing surface
-      DEBUG(2,"c->color_mode %ld\n",c->color_mode);
+      DEBUG(2,"c->color_mode %d\n",c->color_mode);
       if(c->color_mode == PAL_RGB)
       {
         // swap BGR -> RGB
@@ -231,16 +231,16 @@ void render_document(void)
       {
         // get the position of the next band
         if(!pDrvNextBand(&bm,&p))
-          ERRMSG("DrvNextBand failed, error %ld\n",GetLastError());
+          ERRMSG("DrvNextBand failed, error %d\n",GetLastError());
 
-        DEBUG(2,"DrvNextBand returned point %ld/%ld\n",p.x,p.y);
+        DEBUG(2,"DrvNextBand returned point %d/%d\n",p.x,p.y);
       }
     }
 
     // page completed, send end-of-page printer code
     if(!pDrvSendPage(&bm))
     {
-      ERRMSG("DrvSendPage failed, error %ld\n",GetLastError());
+      ERRMSG("DrvSendPage failed, error %d\n",GetLastError());
       exit(31);
     }
     else
@@ -254,7 +254,7 @@ void render_document(void)
   // so we can ignore this problem
   if(!pDrvEndDoc(&bm,0))
   {
-    DEBUG(1,"DrvEndDoc failed, error %ld\n",GetLastError());
+    DEBUG(1,"DrvEndDoc failed, error %d\n",GetLastError());
     //exit(97);
   }
 }

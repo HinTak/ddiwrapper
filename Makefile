@@ -10,8 +10,8 @@ EXES                  = ddiwrapper.exe
 
 ### Common settings
 
-CEXTRA                = -mno-cygwin -D_ANONYMOUS_UNION= -D_ANONYMOUS_STRUCT= -D__INTERLOCKED_DECLARED -g -fpack-struct -Wall
-CXXEXTRA              = -mno-cygwin
+CEXTRA                = -m32 -mno-cygwin -D_ANONYMOUS_UNION= -D_ANONYMOUS_STRUCT= -D__INTERLOCKED_DECLARED -g -fpack-struct -Wall
+CXXEXTRA              = -m32 -mno-cygwin
 RCEXTRA               =
 INCLUDE_PATH          = -I. -Iinclude -I/usr/local/include/wine -I/usr/include/wine
 DLL_PATH              =
@@ -123,10 +123,7 @@ $(EXTRASUBDIRS:%=%/__clean__): dummy
 
 ### Target specific build rules
 
-$(ddiwrapper_exe_MODULE).dbg.c: $(ddiwrapper_exe_C_SRCS) $(ddiwrapper_exe_CXX_SRCS)
-	$(WINEBUILD) -o $@ --debug -C$(SRCDIR) $(ddiwrapper_exe_C_SRCS) $(ddiwrapper_exe_CXX_SRCS)
-
-$(ddiwrapper_exe_MODULE).so: $(ddiwrapper_exe_MODULE).dbg.o $(ddiwrapper_exe_OBJS)
-	$(CC) $(ddiwrapper_exe_LDFLAGS) -o $@ $(ddiwrapper_exe_OBJS) $(ddiwrapper_exe_MODULE).dbg.o $(ddiwrapper_exe_LIBRARY_PATH) $(LIBRARY_PATH) $(ddiwrapper_exe_DLLS:%=-l%) $(ddiwrapper_exe_LIBRARIES:%=-l%)
+$(ddiwrapper_exe_MODULE).so: $(ddiwrapper_exe_OBJS)
+	$(CC) $(ddiwrapper_exe_LDFLAGS) -o $@ $(ddiwrapper_exe_OBJS) $(ddiwrapper_exe_LIBRARY_PATH) $(LIBRARY_PATH) $(ddiwrapper_exe_DLLS:%=-l%) $(ddiwrapper_exe_LIBRARIES:%=-l%)
 
 

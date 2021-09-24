@@ -11,6 +11,7 @@
 /usr/share/ddiwrapper/createwineconf
 
 # run the ddiwrapper binary
+PATH=$PATH:/usr/share/ddiwrapper/drivers/default
 WINEDLLPATH=/usr/share/ddiwrapper/dlls \
 WINEPREFIX=$HOME/.ddiwrapper \
 wine /usr/bin/ddiwrapper.exe.so "$@"

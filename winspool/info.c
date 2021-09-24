@@ -23,7 +23,7 @@ BOOL WINAPI GetPrinterDriverW(HANDLE hPrinter, LPWSTR pEnvironment,
 				      DWORD cbBuf, LPDWORD pcbNeeded
 				      )
 {
-  DEBUG(1,"GetPrinterDriverW called, hPrinter %p, Level %ld, cbBuf %ld\n",hPrinter,Level,cbBuf);
+  DEBUG(1,"GetPrinterDriverW called, hPrinter %p, Level %d, cbBuf %d\n",hPrinter,Level,cbBuf);
 
   DRIVER_INFO_2W w2;
   DRIVER_INFO_3W w3;
@@ -74,7 +74,7 @@ BOOL WINAPI GetPrinterDriverW(HANDLE hPrinter, LPWSTR pEnvironment,
       memcpy(pDriverInfo,&w3,sizeof(w3));
     break;
   default:
-    ERRMSG("GetPrinterDriver Level %ld not implemented\n",Level);
+    ERRMSG("GetPrinterDriver Level %d not implemented\n",Level);
     exit(3);
     break;
   }
@@ -90,7 +90,7 @@ BOOL WINAPI GetPrinterDriverA(HANDLE hPrinter, LPSTR pEnvironment,
 				      DWORD cbBuf, LPDWORD pcbNeeded
 				      )
 {
-  DEBUG(1,"GetPrinterDriverA called, hPrinter %p, Level %ld, cbBuf %ld\n",hPrinter,Level,cbBuf);
+  DEBUG(1,"GetPrinterDriverA called, hPrinter %p, Level %d, cbBuf %d\n",hPrinter,Level,cbBuf);
 
   DRIVER_INFO_2A w2;
   DRIVER_INFO_3A w3;
@@ -136,7 +136,7 @@ BOOL WINAPI GetPrinterDriverA(HANDLE hPrinter, LPSTR pEnvironment,
       memcpy(pDriverInfo,&w3,sizeof(w3));
     break;
   default:
-    ERRMSG("GetPrinterDriver Level %ld not implemented\n",Level);
+    ERRMSG("GetPrinterDriver Level %d not implemented\n",Level);
     exit(3);
     break;
   }
@@ -175,7 +175,7 @@ BOOL WINAPI OpenPrinterA(LPSTR lpPrinterName,HANDLE *phPrinter,
 DWORD WINAPI GetPrinterDataW(HANDLE hPrinter, LPWSTR pValueName, LPDWORD pType,
 			     LPBYTE pData, DWORD nSize, LPDWORD pcbNeeded)
 {
-	DEBUG(1,"GetPrinterDataW called, hPrinter %p, pType %p, pData %p, nSize %ld, ",hPrinter,pType,pData,nSize);
+	DEBUG(1,"GetPrinterDataW called, hPrinter %p, pType %p, pData %p, nSize %d, ",hPrinter,pType,pData,nSize);
 	DEBUG(1,"pValueName %s\n",uni2ascii(pValueName));
 	if(pType) *pType=REG_DWORD;
 	if(nSize>50)
@@ -228,7 +228,7 @@ BOOL WINAPI GetPrinterW(HANDLE hPrinter, DWORD Level, LPBYTE pPrinter,
 			DWORD cbBuf, LPDWORD pcbNeeded)
 {
   // gets the handle passed to DrvEnablePDEV
-  DEBUG(1,"GetPrinterW called, hPrinter %p, Level %ld, pPrinter %p, cbBuf %ld\n",hPrinter,Level,pPrinter,cbBuf);
+  DEBUG(1,"GetPrinterW called, hPrinter %p, Level %d, pPrinter %p, cbBuf %d\n",hPrinter,Level,pPrinter,cbBuf);
 	
   PRINTER_INFO_2W pi2;
   PRINTER_INFO_4W pi4;
@@ -295,7 +295,7 @@ BOOL WINAPI GetPrinterW(HANDLE hPrinter, DWORD Level, LPBYTE pPrinter,
 	return TRUE;
 	break;
     default:
-        ERRMSG("GetPrinterW Level %ld not implemented\n",Level);
+        ERRMSG("GetPrinterW Level %d not implemented\n",Level);
         exit(6);
         break;
     }
@@ -346,7 +346,7 @@ BOOL WINAPI GetPrinterA(HANDLE hPrinter, DWORD Level, LPBYTE pPrinter,
 			DWORD cbBuf, LPDWORD pcbNeeded)
 {
   // gets the handle passed to DrvEnablePDEV
-  DEBUG(1,"GetPrinterA called, hPrinter %p, Level %ld, pPrinter %p, cbBuf %ld\n",hPrinter,Level,pPrinter,cbBuf);
+  DEBUG(1,"GetPrinterA called, hPrinter %p, Level %d, pPrinter %p, cbBuf %d\n",hPrinter,Level,pPrinter,cbBuf);
 	
   PRINTER_INFO_2A pi2;
   PRINTER_INFO_4A pi4;
@@ -416,7 +416,7 @@ BOOL WINAPI GetPrinterA(HANDLE hPrinter, DWORD Level, LPBYTE pPrinter,
 	return TRUE;
 	break;
     default:
-        ERRMSG("GetPrinterW Level %ld not implemented\n",Level);
+        ERRMSG("GetPrinterW Level %d not implemented\n",Level);
         exit(6);
         break;
     }
@@ -442,7 +442,7 @@ WritePrinter(
   static int fd=0;
   int i;
 
-  DEBUG(2,"WritePrinter called, hPrinter %p, pBuf %p, cbBuf %ld, pcWritten %p (%ld)\n",hPrinter,pBuf,cbBuf,pcWritten,*pcWritten);
+  DEBUG(2,"WritePrinter called, hPrinter %p, pBuf %p, cbBuf %d, pcWritten %p (%d)\n",hPrinter,pBuf,cbBuf,pcWritten,*pcWritten);
 
   // check if the driver passes the correct spooler handle
   // very unlikely to fail as we only have one printer
@@ -509,11 +509,11 @@ EnumFormsW(
   PDWORD Returned)
 {
   // gets the handle passed to DrvEnablePDEV
-  DEBUG(1,"EnumFormsW called, Printer %p, Level %ld, Buffer %p, BufSize %ld\n",Printer,Level,Buffer,BufSize);
+  DEBUG(1,"EnumFormsW called, Printer %p, Level %d, Buffer %p, BufSize %d\n",Printer,Level,Buffer,BufSize);
   
   if(Level != 1) 
   {
-    ERRMSG("EnumFormsW Level %ld not implemented\n",Level);
+    ERRMSG("EnumFormsW Level %d not implemented\n",Level);
     exit(10);
   }
   
@@ -546,7 +546,7 @@ GetJobW(
    LPDWORD  pcbNeeded
 )
 {
-  DEBUG(1,"GetJobW called, hPrinter %p, JobId %lu, Level %lu, pJob %p, cbBuf %lu, pcbNeeded %p\n",hPrinter,JobId,Level,pJob,cbBuf,pcbNeeded);
+  DEBUG(1,"GetJobW called, hPrinter %p, JobId %u, Level %u, pJob %p, cbBuf %u, pcbNeeded %p\n",hPrinter,JobId,Level,pJob,cbBuf,pcbNeeded);
   *pcbNeeded=0;
   return TRUE;
 }

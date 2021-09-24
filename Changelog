@@ -1,3 +1,9 @@
+version 0.3-rc1:
+Hin-Tak Leung <htl10@users.sourceforge.net>:
+	- Updated to compile and work with latest wine (0.9.59, April 2008)
+	- Some extra stubs for the Konica-Milnolt Magicolor 2500W
+	  (but the XP driver still does not work under ddiwrapper)
+
 version 0.2-lgpl:
 
 relicensed for use in the WINE project

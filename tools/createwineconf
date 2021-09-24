@@ -11,7 +11,4 @@
 # by the ddiwrapper wrapper script.
 
 test -e $HOME/.ddiwrapper && exit 0
-mkdir -p $HOME/.ddiwrapper
-cd $HOME/.ddiwrapper
-cp -p /usr/share/ddiwrapper/wine.config config
-mkdir -p c/windows/system
+WINEPREFIX=$HOME/.ddiwrapper wineprefixcreate 

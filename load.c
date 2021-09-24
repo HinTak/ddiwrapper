@@ -81,7 +81,7 @@ void load_driver(void)
   dll=LoadLibraryW(c->driver_path);
   if(!dll)
   {
-    ERRMSG("failed to load driver, error %ld\n",GetLastError());
+    ERRMSG("failed to load driver %s, error %d\n",uni2ascii(c->driver_path), GetLastError());
     exit(76);
   }
   
@@ -114,7 +114,7 @@ void load_driver(void)
   idll=LoadLibraryW(c->config_path);
   if(!idll)
   {
-    ERRMSG("failed to load interface DLL, error %ld\n",GetLastError());
+    ERRMSG("failed to load interface DLL %s, error %ld\n",uni2ascii(c->config_path), GetLastError());
     exit(82);
   }
   
@@ -169,13 +169,13 @@ void load_driver(void)
     exit(1);
   }
   
-  DEBUG(1,"iDriverVersion 0x%lx\n",ded.iDriverVersion);
-  DEBUG(2,"DRVFN array size %lu\n",ded.c);
+  DEBUG(1,"iDriverVersion 0x%x\n",ded.iDriverVersion);
+  DEBUG(2,"DRVFN array size %u\n",ded.c);
 
   // initialize the function pointers
   for(i=0;i<ded.c;i++)
   {
-    DEBUG(3,"DRVFN function %lu at %p\n",ded.pdrvfn[i].iFunc,ded.pdrvfn[i].pfn);
+    DEBUG(3,"DRVFN function %u at %p\n",ded.pdrvfn[i].iFunc,ded.pdrvfn[i].pfn);
     switch(ded.pdrvfn[i].iFunc)
     {
       case INDEX_DrvEnablePDEV: pDrvEnablePDEV = (void*) ded.pdrvfn[i].pfn; break;
@@ -209,7 +209,7 @@ void load_driver(void)
       case INDEX_DrvIcmDeleteColorTransform: pDrvIcmDeleteColorTransform = (void*) ded.pdrvfn[i].pfn; break;
       case INDEX_DrvIcmCheckBitmapBits: pDrvIcmCheckBitmapBits = (void*) ded.pdrvfn[i].pfn; break;
       case INDEX_DrvEscape: pDrvEscape = (void*) ded.pdrvfn[i].pfn; break;
-      default: DEBUG(1,"Unknown function %lu\n",ded.pdrvfn[i].iFunc); break;
+      default: DEBUG(1,"Unknown function %u\n",ded.pdrvfn[i].iFunc); break;
     }
     
   }

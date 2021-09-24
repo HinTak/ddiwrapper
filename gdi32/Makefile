@@ -105,10 +105,7 @@ $(EXTRASUBDIRS:%=%/__clean__): dummy
 
 ### Target specific build rules
 
-$(gdi32_dll_MODULE).dbg.c: $(gdi32_dll_C_SRCS) $(gdi32_dll_CXX_SRCS)
-	$(WINEBUILD) -o $@ --debug -C$(SRCDIR) $(gdi32_dll_C_SRCS) $(gdi32_dll_CXX_SRCS)
-
-$(gdi32_dll_MODULE).so: $(gdi32_dll_MODULE).dbg.o $(gdi32_dll_OBJS)
-	$(CC) -shared $(gdi32_dll_MODULE).spec $(gdi32_dll_LDFLAGS) -o $@ $(gdi32_dll_OBJS) $(gdi32_dll_MODULE).dbg.o $(gdi32_dll_LIBRARY_PATH) $(LIBRARY_PATH) $(gdi32_dll_DLLS:%=-l%) $(gdi32_dll_LIBRARIES:%=-l%)
+$(gdi32_dll_MODULE).so: $(gdi32_dll_OBJS)
+	$(CC) -shared $(gdi32_dll_MODULE).spec $(gdi32_dll_LDFLAGS) -o $@ $(gdi32_dll_OBJS) $(gdi32_dll_LIBRARY_PATH) $(LIBRARY_PATH) $(gdi32_dll_DLLS:%=-l%) $(gdi32_dll_LIBRARIES:%=-l%)
 
 

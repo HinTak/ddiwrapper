@@ -1,13 +1,18 @@
 # Copyright 2004 Ulrich Hecht <uli@suse.de>
 
+# Copyright 2007 Hin-Tak Leung <htl10@users.sourceforge.net>
+#  -- Adding new stubs for newer XP drivers
+
 # This file is part of ddiwrapper.
 
 # ddiwrapper is free software; you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License version 2.1 as
 # published by the Free Software Foundation.
 
+@ cdecl __wine_make_gdi_object_system(long long)
+@ stub EngUnicodeToMultiByteN
 @ stub EngTextOut
-@ stub DeleteObject
+@ stdcall DeleteObject(long)
 @ stub CLIPOBJ_cEnumStart
 @ stub CLIPOBJ_bEnum
 @ stdcall EngCheckAbort (ptr)
@@ -55,10 +60,11 @@
 @ stub EngDeletePath
 @ stub PATHOBJ_vGetBounds
 @ stub FONTOBJ_cGetGlyphs
+@ stub FONTOBJ_vGetInfo
 @ stub PATHOBJ_vEnumStart
 @ stub BitBlt
 @ stub CombineRgn
-@ stub CreateBitmap
+@ stdcall CreateBitmap(long long long long ptr)
 @ stub CreateCompatibleDC
 @ stub CreateDIBitmap
 @ stub CreatePolyPolygonRgn
@@ -89,7 +95,7 @@
 @ stub GetMapMode
 @ stub GetMetaFileBitsEx
 @ stub GetNearestPaletteIndex
-@ stub GetObjectA
+@ stdcall GetObjectA(long long ptr)
 @ stub GetObjectType
 @ stub GetObjectW
 @ stub GetOutlineTextMetricsW
@@ -121,16 +127,16 @@
 @ stub CreateBitmapIndirect
 @ stub CreateCompatibleBitmap
 @ stub CreateDCA
-@ stub CreateDCW
+@ stdcall CreateDCW(wstr wstr wstr ptr)
 @ stub CreateDIBSection
 @ stub CreateFontA
 @ stub CreateFontIndirectA
 @ stub CreateFontIndirectW
 @ stub CreateFontW
 @ stub CreateICA
-@ stub CreatePatternBrush
-@ stub CreatePen
-@ stub CreateSolidBrush
+@ stdcall CreatePatternBrush(long)
+@ stdcall CreatePen(long long long)
+@ stdcall CreateSolidBrush(long)
 @ stub Ellipse
 @ stub ExcludeVisRect16
 @ stub ExtSelectClipRgn
@@ -161,7 +167,7 @@
 @ stub SetBkMode
 @ stub SetDCHook
 @ stub SetDCState16
-@ stub SetDIBits
+@ stdcall SetDIBits(long long long long ptr ptr long)
 @ stub SetMapMode
 @ stub SetROP2
 @ stub SetStretchBltMode

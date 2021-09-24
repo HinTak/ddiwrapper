@@ -129,9 +129,7 @@ typedef IID *LPIID;
 //typedef CLSID *REFCLSID;
 typedef GUID FMTID;
 //typedef FMTID *REFFMTID;
-typedef unsigned long error_status_t;
 #define uuid_t UUID
-typedef unsigned long PROPID;
 
 #ifndef _REFGUID_DEFINED
 #if defined (__cplusplus) && !defined (CINTERFACE)

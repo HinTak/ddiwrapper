@@ -93,3 +93,43 @@ them to the same address.
 
 CU
 Uli
+
+-------------------------------------------------------------------
+Addendum from Hin-Tak Leung <htl10@users.sourceforge.net>:
+
+1) 
+
+For Wine releases between Feb/March 2006 up to time of writing
+(April 2008), it is necessary to comment out one line in the wine loader
+code to make ddiwrapper work:
+====================================================
+diff --git a/libs/wine/loader.c b/libs/wine/loader.c
+index 0f05f0c..743d487 100644
+--- a/libs/wine/loader.c
++++ b/libs/wine/loader.c
+@@ -117,7 +117,7 @@ static void build_dll_path(void)
+     if (dlldir)
+     {
+         dll_path_maxlen = strlen(dlldir);
+-        dll_paths[nb_dll_paths++] = dlldir;
++        /* dll_paths[nb_dll_paths++] = dlldir; */
+     }
+     else if ((build_dir = wine_get_build_dir()))
+     {
+====================================================
+
+2) ps2ddi can be driven on the command-line for testing
+if these 5 environment variables are set:
+
+    export DRIVER="/usr/share/ddiwrapper/drivers/default"
+    export DUPLEX="simplex"
+    export MEDIATYPE="standard"
+    export PAPERSIZE="a4"
+    export PRINTQUALITY="high"
+
+(in a CUPS/Foomatic usage, these are set in the PPD file).
+
+Good luck!
+
+HTL 
+-------------------------------------------------------------------

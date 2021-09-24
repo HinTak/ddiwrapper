@@ -59,10 +59,10 @@ int WINAPI WinMain(HINSTANCE eins, HINSTANCE zwei, LPSTR arg, int whatever)
   // test mode: print out the dimensions and resolution the driver expects, then exit
   if(c->test_mode)
   {
-    printf("XSIZE=%ld\n",c->gdiinfo.ulHorzRes);
-    printf("YSIZE=%ld\n",c->gdiinfo.ulVertRes);
-    printf("XRES=%ld\n",c->gdiinfo.ulLogPixelsX);
-    printf("YRES=%ld\n",c->gdiinfo.ulLogPixelsY);
+    printf("XSIZE=%u\n",c->gdiinfo.ulHorzRes);
+    printf("YSIZE=%u\n",c->gdiinfo.ulVertRes);
+    printf("XRES=%u\n",c->gdiinfo.ulLogPixelsX);
+    printf("YRES=%u\n",c->gdiinfo.ulLogPixelsY);
     exit(0);
   }
   

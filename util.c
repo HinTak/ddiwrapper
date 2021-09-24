@@ -15,7 +15,7 @@ void dumpmem(void* mem, int size)
   int i;
   for(i=0;i<size/4;i++)
   {
-    fprintf(stderr,"0x%08lx ",*((ULONG*)mem));
+    fprintf(stderr,"0x%08x ",*((ULONG*)mem));
     mem+=4;
     if(i%8==7) fputs("",stderr);
   }

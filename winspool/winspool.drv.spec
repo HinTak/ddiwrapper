@@ -22,3 +22,4 @@
 @ stdcall EndPagePrinter(long)
 @ stdcall GetJobW (long long long ptr long ptr)
 @ stub SetJobW
+@ stub GetPrinterDriverDirectoryA

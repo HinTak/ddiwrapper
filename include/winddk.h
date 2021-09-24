@@ -133,7 +133,6 @@ static __inline struct _KPCR * KeGetCurrentKPCR(
 typedef LONG KPRIORITY;
 typedef UCHAR KIRQL, *PKIRQL;
 typedef ULONG_PTR KSPIN_LOCK, *PKSPIN_LOCK;
-typedef ULONG KAFFINITY, *PKAFFINITY;
 typedef CCHAR KPROCESSOR_MODE;
 
 typedef enum _MODE {
@@ -4154,6 +4153,7 @@ RemoveTailList(
   return Entry;
 }
 
+#if 0 // conflicts with wine
 #if !defined(_WINBASE_H) || _WIN32_WINNT < 0x0501
 
 NTOSAPI
@@ -4169,6 +4169,7 @@ InterlockedPushEntrySList(
   IN PSLIST_HEADER  ListHead,
   IN PSLIST_ENTRY  ListEntry);
 
+#endif
 #endif
 
 /*

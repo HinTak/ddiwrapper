@@ -32,7 +32,7 @@ EngCreatePalette(IN ULONG Mode,
                  IN ULONG Green,
                  IN ULONG Blue)
 {
-  DEBUG(1,"EngCreatePalette called, Mode %lu, NumColors %lu, Colors %p, Red %lu, Green %lu, Blue %lu\n",Mode,NumColors,Colors,Red,Green,Blue);
+  DEBUG(1,"EngCreatePalette called, Mode %u, NumColors %u, Colors %p, Red %u, Green %u, Blue %u\n",Mode,NumColors,Colors,Red,Green,Blue);
   c->color_mode=Mode;
   return (HPALETTE)0xcafe0004;
 }
@@ -48,7 +48,7 @@ static SURFOBJ so[4];
 HBITMAP WINAPI EngCreateBitmap(IN SIZEL  sizl, IN LONG  lWidth, IN ULONG  iFormat, IN FLONG  fl, IN PVOID  pvBits)
 {
   static int i=0;
-  DEBUG(1,"EngCreateBitmap called, sizl %ld/%ld, lWidth %ld, iFormat 0x%lx, fl 0x%lx, pvBits %p\n",sizl.cx,sizl.cy,lWidth,iFormat,fl,pvBits);
+  DEBUG(1,"EngCreateBitmap called, sizl %d/%d, lWidth %d, iFormat 0x%x, fl 0x%x, pvBits %p\n",sizl.cx,sizl.cy,lWidth,iFormat,fl,pvBits);
   memset(&so[i],0,sizeof(so[i]));
   so[i].sizlBitmap=sizl;
   so[i].iBitmapFormat=iFormat;
@@ -81,7 +81,7 @@ BOOL WINAPI
     )
 {
   SURFOBJ* so=(SURFOBJ*)hsurf;
-  DEBUG(1,"EngAssociateSurface called, hsurf %p, hdev %p, flHooks 0x%lx\n",hsurf,hdev,flHooks);
+  DEBUG(1,"EngAssociateSurface called, hsurf %p, hdev %p, flHooks 0x%x\n",hsurf,hdev,flHooks);
   so->hsurf=hsurf;
   so->hdev=hdev;
   return TRUE;
@@ -104,7 +104,7 @@ HSURF WINAPI
     ULONG  iFormatCompat
     )
 {
-  DEBUG(1,"EngCreateDeviceSurface, dhsurf %p, sizl %ld/%ld, iFormatCompat %lu\n",dhsurf,sizl.cx,sizl.cy,iFormatCompat);
+  DEBUG(1,"EngCreateDeviceSurface, dhsurf %p, sizl %d/%d, iFormatCompat %u\n",dhsurf,sizl.cx,sizl.cy,iFormatCompat);
   DEBUG(2,"returning handle %p\n",&so[0]);
   return (HSURF)(VOID*)&so[0];
 }
@@ -132,7 +132,7 @@ BOOL WINAPI
     IN RECTL  *prcl,
     IN ULONG  iColor)
 {
-  DEBUG(1,"EngEraseSurface called, pso %p, prcl %ld/%ld/%ld/%ld, iColor 0x%lx\n",pso,prcl->top,
+  DEBUG(1,"EngEraseSurface called, pso %p, prcl %d/%d/%d/%d, iColor 0x%x\n",pso,prcl->top,
 	prcl->left,prcl->right,prcl->bottom,iColor);
   return TRUE;
 }
@@ -190,7 +190,7 @@ BOOL WINAPI
     MIX  mix
     )
 {
-  DEBUG(1,"EngLineTo called, pso %p, pco %p, pbo %p, coords %ld/%ld/%ld/%ld, pcrlBounds %p, mix %lu\n",pso,pco,pbo,x1,y1,x2,y2,prclBounds,mix);
+  DEBUG(1,"EngLineTo called, pso %p, pco %p, pbo %p, coords %d/%d/%d/%d, pcrlBounds %p, mix %u\n",pso,pco,pbo,x1,y1,x2,y2,prclBounds,mix);
   return TRUE;
 }
 
@@ -222,4 +222,62 @@ UINT WINAPI GetPaletteEntries(
 {
   DEBUG(1,"GetPaletteEntries called, hpal %p, iStartIndex %u, nEntries %u, lppe %p\n",hpal,iStartIndex,nEntries,lppe);
   return 0;
+}
+
+HBRUSH WINAPI CreateSolidBrush(COLORREF color)
+{
+  DEBUG(0,"CreateSolidBrush with color %d\n",color);
+  return (HBRUSH)0xcafedead;
+}
+
+HPEN WINAPI CreatePen( INT style, INT width, COLORREF color )
+{
+  DEBUG(0,"CreatePen\n");
+  return (HPEN)0xcafedead;
+}
+
+
+HBITMAP WINAPI CreateBitmap( INT width, INT height, UINT planes,
+                             UINT bpp, LPCVOID bits )
+{
+  DEBUG(0,"CreateBitMap\n");
+  return (HBITMAP)0xcafedead;
+}
+
+HBRUSH WINAPI CreatePatternBrush( HBITMAP hbitmap )
+{
+ DEBUG(0,"CreatePatternBrush\n");
+  return (HBRUSH)0xcafedead;
+}
+
+HDC WINAPI CreateDCW( LPCWSTR driver, LPCWSTR device, LPCWSTR output,
+                      const DEVMODEW *initData )
+{
+ DEBUG(0,"CreateDCW\n");
+  return (HDC)0xcafedead;
+}
+
+INT WINAPI SetDIBits( HDC hdc, HBITMAP hbitmap, UINT startscan,
+                      UINT lines, LPCVOID bits, const BITMAPINFO *info,
+                      UINT coloruse )
+{
+  DEBUG(0,"SetDIBits %u\n", lines);
+  return lines;
+}
+
+INT WINAPI GetObjectA( HGDIOBJ handle, INT count, LPVOID buffer )
+{
+  DEBUG(0,"GetObjectA %d\n", count);
+  return count;
+}
+
+BOOL WINAPI DeleteObject( HGDIOBJ obj )
+{
+  DEBUG(0,"DeleteObject\n")
+  return TRUE;
+}
+
+void __wine_make_gdi_object_system( HGDIOBJ handle, BOOL set)
+{
+  DEBUG(0,"__wine_make_gdi_object_system %08x %d\n", handle, set);
 }
