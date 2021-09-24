@@ -1,0 +1,95 @@
+1. INTRODUCTION
+
+ddiwrapper can load a Windows 2000/XP printer driver, feed bitmap data into
+it, and produce printer code. It currently works well for most Canon inkjet
+printer drivers. It uses WINE as a binary loader and for most of the Win32
+API infrastructure.
+
+
+2. QUICKSTART
+
+This section will help you getting a working setup for printing to your
+Windows-only printer via CUPS and the Windows XP printer driver.
+
+a. Make sure you have a recent version of WINE installed. Anything released
+after August 2004 should work fine.
+
+b. Run "make && make install"
+
+c. Get the Windows 2000 or XP driver archive for your printer from the
+driver download section of the Canon web site of your choice.
+
+d. Install the driver, preferably to /usr/share/ddiwrapper/drivers/default
+
+  excanondriver <driver>.exe /usr/share/ddiwrapper/drivers/default
+
+If you install it to a different directory, you will have to change the PPD
+file accordingly before injecting it into the CUPS system. excanondriver
+uses cabextract, unzip and recode, so make sure you have these installed.
+
+e. Inject the PPD file into the CUPS system
+
+  lpadmin -p ddiwrapper -v usb:/dev/usblp0 -P doc/ddiwrapper.ppd -E
+
+This will create a printing queue called "ddiwrapper" that, if printed to,
+will pipe PostScript input through GhostScript, ddiwrapper and the Windows
+printer driver out to your USB printer. If you are using a graphical user
+interface such as kprinter you can use it to choose paper format, paper
+type, duplex mode and printing quality.
+
+f. Finished. Now you should be able to print to your formerly unsupported
+Canon printer through CUPS.
+
+
+3. TESTED DRIVERS/PRINTERS
+
+"Dry" testing means that I fed an input file into the driver and checked if
+it produces output of sensible size and content. "Wet" testing means that I
+have sent the output to an actual printer to check if it looks right.
+
+								Tested
+Name				Driver File		dry		wet
+=======================================================================================
+Canon BJC-85			b1cd_gex.exe		OK		untested
+Canon BJC-2100 			b1a71gex.exe		OK		untested
+Canon BJC-8500			b1ap1gex.exe		OK		untested
+Canon CP-330			k4507dex.exe		fails to load
+Canon i70			b3317mux.exe		OK		untested
+Canon i80			b4301mux.exe		OK		OK
+Canon i250			b3607mux.exe		OK		untested
+Canon i320			b331cmux.exe		OK		untested
+Canon i450			b3400mux.exe		OK		untested
+Canon i475D			b4107mux.exe		OK		untested
+Canon i550 			i550xp162aus.exe (US),	OK		untested
+				b331bmux.exe (EU)
+Canon i905D			b3a16mux.exe		OK		untested
+Canon i6500			b3402mux.exe		OK		untested
+Canon i9950			b4500mux.exe		OK		untested
+Canon Pixma iP1500		b4902mux.exe		OK		untested
+Canon Pixma iP3000		b4906mux.exe		OK		OK
+Canon Pixma iP4000 [1]		b4908mux.exe		OK		OK
+Canon Pixma iP8500		b4a05mux.exe		OK		untested
+Canon S100			b1aq1gex.exe		OK		untested
+Canon S800			b2518mux.exe		OK		untested
+Canon S9000			b2a08mux.exe		OK		untested
+Canon Selphy DS700		b4a14mux.exe		OK		untested
+
+[1] tested by Daniel Zehetmayer
+
+
+4. DEVELOPMENT
+
+You are very much encouraged to enhance ddiwrapper in any way you see fit,
+especially by adding support for non-Canon printers. Read the file
+doc/HACKING for hints that may help you getting started.
+
+
+5. CONTACT
+
+Please send patches, patches, and patches to uli@suse.de. Please think very
+hard before asking questions. If you still have questions after that, send
+them to the same address.
+
+
+CU
+Uli

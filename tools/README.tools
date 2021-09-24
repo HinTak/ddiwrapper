@@ -1,0 +1,16 @@
+createwineconf: creates a suitable WINE configuration in the user's home
+directory if not already present; called by ps2ddi and ddiwrapper
+
+ddiwrapper: wrapper running ddiwrapper.exe.so with suitable DLL path and
+prefix
+
+msexpand: filter uncompressing SZDD files; this is the file format most
+printer drivers are distributed in (Canon's more recent drivers are notable
+exceptions)
+
+excanondriver: extracts a Canon printer driver archive (first argument) to a
+given directory (second argument) and creates a file there named "params"
+that contains the parameters ddiwrapper has to be called with to use this
+driver; requires cabextract, unzip and recode
+
+ps2ddi: feeds PostScript code to ddiwrapper, used by the ddiwrapper.ppd file

@@ -1,0 +1,12 @@
+include/*: The files in this directory are either modified header files from
+ReactOS (http://www.reactos.com/) and licensed under the terms of the GNU
+Public License, or come from the w32api package (http://www.mingw.org/) and
+have been placed in the Public Domain.
+
+tools/msexpand.c: This file has been adapted to work as a standalone filter
+decompressing SZDD-compressed files; original version from ClamAV
+(http://www.clamav.net) and licensed under the terms of the GNU Public
+License.
+
+all other files: Copyright 2004 Ulrich Hecht, distributable under the terms
+of the GNU Public License version 2.

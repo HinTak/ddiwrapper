@@ -1,0 +1,31 @@
+Some observations I have made while trying to get different drivers to work:
+
+- Printer drivers are not bug-free. They oftentimes do not handle errors on
+  your part gracefully. You will want to use a good disassembler/debugger. 
+  You should not trust GetLastError().
+
+- Win32 printer driver developers are quick to make assumptions about
+  the environment their code is running in. Things I have observed include
+  construction of paths to arbitrary files from the driver path, creation of
+  log files in arbitrary places, relying on the presence of a GUI (seems all
+  printer interface DLLs do that) asf.
+
+- WINEDEBUG=+relay is very helpful. Check if the driver fails to open files
+  or registry entries.
+
+- To get WINE to run in gdb, set LD_ASSUME_KERNEL=2.2.19
+
+- The Windows DDI is documented, but not very well. Stuff you will want to
+  read:
+
+  http://www.google.com/search?q=%22printer+driver+architecture%22+-nt&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+
+  In particular:
+
+  http://www.google.com/search?q=%22introduction+to+printer+graphics+dlls%22&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+  http://www.google.com/search?q=%22rendering+a+print+job%22&btnI=I%27m+Feeling+Lucky&ie=UTF-8&oe=UTF-8
+  http://msdn.microsoft.com/library/en-us/graphics/hh/graphics/drvarch_bca7b4b3-3144-4009-be77-2118e3331c1a.xml.asp
+
+- Remember you are programming in a Win32 environment (WINE). Win32 stdio,
+  for instance, exhibits subtle but potentially lethal differences in
+  behaviour compared to its Unix counterpart.

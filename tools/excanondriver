@@ -1,0 +1,122 @@
+#!/bin/bash
+# Copyright 2004 Ulrich Hecht <uli@suse.de>
+
+# This file is part of ddiwrapper.
+
+# ddiwrapper is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+
+
+function reconstruct
+{
+	dstext="${1##*.}"
+	dstbas="${1%%.*}"
+	test "$dstext" = "hl_" && dstext="hlp"
+	test "$dstext" = "HL_" && dstext="HLP"
+	test "$dstext" = "cn_" && dstext="cnm"
+	test "$dstext" = "CN_" && dstext="CNM"
+	test "$dstext" = "dl_" && dstext="dll"
+	test "$dstext" = "DL_" && dstext="DLL"
+	test "$dstext" = "ic_" && dstext="icm"
+	test "$dstext" = "IC_" && dstext="ICM"
+	test "$dstext" = "np_" && dstext="npd"
+	test "$dstext" = "NP_" && dstext="NPD"
+	test "$dstext" = "up_" && dstext="upd"
+	test "$dstext" = "UP_" && dstext="UPD"
+	test "$dstext" = "xp_" && dstext="xpd"
+	test "$dstext" = "XP_" && dstext="XPD"
+	test "$dstext" = "ci_" && dstext="cip"
+	test "$dstext" = "CI_" && dstext="CIP"
+	test "$dstext" = "ex_" && dstext="exe"
+	test "$dstext" = "EX_" && dstext="EXE"
+	echo "$dstbas.$dstext"
+}
+
+
+src="$1"
+shift
+dst="$1"
+
+if test -z "$src" || test -z "$dst"
+then
+	echo "Usage: $0 [DRIVER] [DIRECTORY]" >&2
+	echo "Extracts the Canon printer driver archive DRIVER to DIRECTORY, creating the" >&2
+	echo "file DIRECTORY/parms containing the parameters that have to be passed to" >&2
+	echo "ddiwrapper so that it uses this driver." >&2
+	exit 1
+fi
+
+tmpdir=`mktemp -d`
+
+if test -z "$tmpdir"
+then
+	echo "$0: mktemp -d failed" >&2
+	exit 2
+fi
+
+if ! unzip -qd $tmpdir "$src" 2>/dev/null
+then
+	if ! lha "xqw=$tmpdir" "$src"
+	then
+		echo "$0: unpacking archive $src failed" >&2
+		rm -fr "$tmpdir"
+		exit 3
+	fi
+fi
+
+cd $tmpdir
+cd "`dirname "\`find -type f -name "*.[Ii][Nn][Ff]"|tail -n 1\`"`"
+
+chmod 644 *
+chmod 755 *.dll *.DLL *.exe *.EXE 2>/dev/null
+
+for i in *_
+do
+	test -e "$i" || break
+	cabextract -q "$i" 2>/dev/null && rm -f "$i" ||
+	  msexpand <"$i" >"`reconstruct "$i"`" && rm -f "$i"
+done
+
+inffile=`ls *.[Ii][Nn][Ff]|tail -n 1`
+
+recode utf16..latin1 $inffile 2>/dev/null
+recode ibmpc..utf8 $inffile
+
+for i in *
+do
+	target=`grep -i ",${i}$" $inffile |sed s/,.*$//`
+	#echo $i -- $target
+	if test -n "$target"
+	then
+		mv -i "$i" "$target"
+	fi
+done
+
+driver=`grep DriverFile= $inffile|tail -n 1|sed s,^.*=,,`
+config=`grep ConfigFile= $inffile|tail -n 1|sed s,^.*=,,`
+data=`grep DataFile= $inffile|tail -n 1|sed s,^.*=,,`
+
+if test -z "$driver"
+then
+	echo "$0: unable to find DriverFile entry in $inffile" >&2
+	#rm -fr "$tmpdir"
+	exit 4
+fi
+if test -z "$config"
+then
+	echo "$0: unable to find ConfigFile entry in $inffile" >&2
+	rm -fr "$tmpdir"
+	exit 5
+fi
+if test -z "$data"
+then
+	echo "$0: unable to find DataFile entry in $inffile" >&2
+	rm -fr "$tmpdir"
+	exit 6
+fi
+
+mkdir -p "$dst"
+echo --DriverPrefix=$dst --DriverPath=$driver --ConfigPath=$config --DataPath=$data >"$dst/parms"
+mv * "$dst"
+rm -fr "$tmpdir"

@@ -1,0 +1,12 @@
+Parameters for some printer drivers. This does not imply that those drivers
+work. For Canon printer drivers, the excanondriver script can extract these
+parameters automatically from the accompanying .inf file.
+
+# Canon i905
+--DriverPath CNMDR5o.DLL --ConfigPath CNMUI5o.DLL --DataPath CNMCP5o.DLL
+# Canon Pixma iP3000
+--DriverPath CNMDR61.DLL --ConfigPath CNMUI61.DLL --DataPath CNMCP61.DLL
+# Lexmark
+--DriverPath LXBVDR5C.DLL --ConfigPath LXBVUI5C.DLL --DataPath LXBVUI5C.DLL
+# Epson Stylus C46
+--DriverPath E_DMAI16.DLL --ConfigPath E_DU18TE.DLL --DataPath E_DM18TE.VIF

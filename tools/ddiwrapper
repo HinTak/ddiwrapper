@@ -1,0 +1,16 @@
+#!/bin/sh
+# Copyright 2004 Ulrich Hecht <uli@suse.de>
+
+# This file is part of ddiwrapper.
+
+# ddiwrapper is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+
+# create a suitable WINE config in $HOME
+/usr/share/ddiwrapper/createwineconf
+
+# run the ddiwrapper binary
+WINEDLLPATH=/usr/share/ddiwrapper/dlls \
+WINEPREFIX=$HOME/.ddiwrapper \
+wine /usr/bin/ddiwrapper.exe.so "$@"

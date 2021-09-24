@@ -1,0 +1,43 @@
+#!/bin/sh
+# Copyright 2004 Ulrich Hecht <uli@suse.de>
+
+# This file is part of ddiwrapper.
+
+# ddiwrapper is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+
+#set >/tmp/printer.args
+
+deltemp=0
+if test -z "$HOME"
+then
+	export HOME=`mktemp -d`
+	deltemp=1
+fi
+
+test "$DUPLEX" = "None" && DUPLEX=simplex
+test "$DUPLEX" = "DuplexNoTumble" && DUPLEX=vertical
+test "$DUPLEX" = "DuplexTumble" && DUPLEX=horizontal
+
+if test "$DUPLEX" = "vertical"
+then
+	PREPRO="pstops 2:0,1HV"
+	DUPLEX=horizontal
+else 
+	PREPRO="cat"
+fi
+
+/usr/share/ddiwrapper/createwineconf
+
+eval `ddiwrapper \`cat "$DRIVER/parms"\` --PaperSize "$PAPERSIZE" --PrintQuality "$PRINTQUALITY" --Duplex "$DUPLEX" --MediaType "$MEDIATYPE" --test`
+
+$PREPRO | gs -sPAPERSIZE="$PAPERSIZE" -q -r${XRES}x${YRES} -g${XSIZE}x${YSIZE} -sDEVICE=bmp16m -dBATCH \
+ -dPARANOIDSAFER -dNOPAUSE -sOutputFile=- - |
+ ddiwrapper `cat "$DRIVER/parms"` --PaperSize "$PAPERSIZE" --PrintQuality "$PRINTQUALITY" --Duplex "$DUPLEX" \
+ --MediaType "$MEDIATYPE"
+
+if test "$deltemp" = 1
+then
+	rm -fr $HOME
+fi

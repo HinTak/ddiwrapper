@@ -1,0 +1,73 @@
+*PPD-Adobe: "4.3"
+*%
+*%   ddiwrapper driver PPD file for the Common UNIX Printing
+*%   System (CUPS).
+*%
+*%   Ulrich Hecht <uli@suse.de>
+*%
+*FormatVersion:	"4.3"
+*FileVersion:	"1.1"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*PCFileName:	"DDI.PPD"
+*Manufacturer:	"Generic"
+*Product:	"(CUPS v1.1)"
+*ModelName:     "Generic GDI printer"
+*ShortNickName: "Generic GDI printer"
+*NickName:      "Generic GDI printer"
+*PSVersion:	"(2017.000) 0"
+*LanguageLevel:	"2"
+*ColorDevice:	True
+*DefaultColorSpace: RGB
+*FileSystem:	False
+*Throughput:	"8"
+*LandscapeOrientation: Plus90
+*VariablePaperSize: True
+*cupsFilter:    "application/vnd.cups-postscript 0 foomatic-rip"
+*%pprRIP:        foomatic-rip other
+*FoomaticRIPCommandLine: "PAPERSIZE=%A DUPLEX=%B PRINTQUALITY=%C MEDIATYPE=%D DRIVER=/usr/share/ddiwrapper/drivers/default ps2ddi"
+
+*OpenUI *PageSize/Media Size: PickOne
+*FoomaticRIPOption PageSize: enum CmdLine A
+*OrderDependency: 10 AnySetup *PageSize
+*DefaultPageSize: a4
+*PageSize letter/Letter:	"%% FoomaticRIPOptionSetting: PageSize=letter"
+*PageSize legal/Legal:		"%% FoomaticRIPOptionSetting: PageSize=legal"
+*PageSize a2/A2:		"%% FoomaticRIPOptionSetting: PageSize=a2"
+*PageSize a3/A3:		"%% FoomaticRIPOptionSetting: PageSize=a3"
+*PageSize a4/A4:		"%% FoomaticRIPOptionSetting: PageSize=a4"
+*PageSize a5/A5:		"%% FoomaticRIPOptionSetting: PageSize=a5"
+*PageSize b4/B4 (ISO):		"%% FoomaticRIPOptionSetting: PageSize=b4"
+*PageSize b5/B5 (ISO):		"%% FoomaticRIPOptionSetting: PageSize=b5"
+*PageSize note/Note:		"%% FoomaticRIPOptionSetting: PageSize=note"
+*PageSize ledger/Ledger:	"%% FoomaticRIPOptionSetting: PageSize=ledger"
+*PageSize 11x17/11x17:		"%% FoomaticRIPOptionSetting: PageSize=11x17"
+*CloseUI: *PageSize
+
+*OpenUI *Duplex/Double-Sided Printing: PickOne
+*FoomaticRIPOption Duplex: enum CmdLine B
+*OrderDependency: 10 AnySetup *Duplex
+*DefaultDuplex: None
+*Duplex None/Off: "%% FoomaticRIPOptionSetting: Duplex=None"
+*Duplex DuplexTumble/Short Edge (Flip): "%% FoomaticRIPOptionSetting: Duplex=DuplexTumble"
+*Duplex DuplexNoTumble/Long Edge (Standard): "%% FoomaticRIPOptionSetting: Duplex=DuplexNoTumble"
+*CloseUI: *Duplex
+
+*OpenUI *Resolution/Output Resolution: PickOne
+*FoomaticRIPOption Resolution: enum CmdLine C
+*OrderDependency: 20 AnySetup *Resolution
+*DefaultResolution: medium
+*Resolution high/High: "%% FoomaticRIPOptionSetting: Resolution=high"
+*Resolution medium/Medium: "%% FoomaticRIPOptionSetting: Resolution=medium"
+*Resolution low/Low: "%% FoomaticRIPOptionSetting: Resolution=low"
+*Resolution draft/Draft: "%% FoomaticRIPOptionSetting: Resolution=draft"
+*CloseUI: *Resolution
+
+*OpenUI *MediaType/Media Type: PickOne
+*FoomaticRIPOption MediaType: enum CmdLine D
+*OrderDependency: 100 AnySetup *MediaType
+*DefaultMediaType: standard
+*MediaType standard/Standard: "%% FoomaticRIPOptionSetting: MediaType=standard"
+*MediaType glossy/Glossy: "%% FoomaticRIPOptionSetting: MediaType=glossy"
+*MediaType transparent/Transparent: "%% FoomaticRIPOptionSetting: MediaType=transparent"
+*CloseUI: *MediaType

@@ -1,0 +1,7 @@
+- implement color management support
+- support non-Canon printers
+- document exit codes (fun for the whole family)
+- better driver path translation (WINE provides functions for that)
+- implement passthrough for GDI32/WINSPOOL functions implemented in WINE
+  (This is essential for drivers where we have to use the interface DLL
+  because they usually make liberal use of the GDI32 API)
