@@ -105,7 +105,10 @@ $(EXTRASUBDIRS:%=%/__clean__): dummy
 
 ### Target specific build rules
 
-$(winspool_dll_MODULE).so: $(winspool_dll_OBJS)
-	$(CC) -shared $(winspool_dll_MODULE).spec $(winspool_dll_LDFLAGS) -o $@ $(winspool_dll_OBJS) $(winspool_dll_LIBRARY_PATH) $(LIBRARY_PATH) $(winspool_dll_DLLS:%=-l%) $(winspool_dll_LIBRARIES:%=-l%)
+$(winspool_dll_MODULE).dbg.c: $(winspool_dll_C_SRCS) $(winspool_dll_CXX_SRCS)
+	$(WINEBUILD) -o $@ --debug -C$(SRCDIR) $(winspool_dll_C_SRCS) $(winspool_dll_CXX_SRCS)
+
+$(winspool_dll_MODULE).so: $(winspool_dll_MODULE).dbg.o $(winspool_dll_OBJS)
+	$(CC) -shared $(winspool_dll_MODULE).spec $(winspool_dll_LDFLAGS) -o $@ $(winspool_dll_OBJS) $(winspool_dll_MODULE).dbg.o $(winspool_dll_LIBRARY_PATH) $(LIBRARY_PATH) $(winspool_dll_DLLS:%=-l%) $(winspool_dll_LIBRARIES:%=-l%)
 
 

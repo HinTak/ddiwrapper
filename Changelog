@@ -1,3 +1,7 @@
+version 0.2-lgpl:
+
+relicensed for use in the WINE project
+
 version 0.2:
 
 header patches by Ruediger Oertel for compatibility with current WINE
